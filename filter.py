@@ -1,27 +1,27 @@
 import sys
-import panflute as pf
+import panflute
 
 headers = []
 
 
-def headerIsExistingFilter(elem, doc):
-    if isinstance(elem, pf.Header):
-        text = pf.stringify(elem)
-        if text in headers:
-            sys.stderr.write(f"Warning: Header {text} already exists in document\n")
+def similarHeaders(elem, doc):
+    if isinstance(elem, panflute.Header):
+        txt = panflute.stringify(elem)
+        if txt in headers:
+            sys.stderr.write(f"Warning: Header {txt} already exists in document\n")
         else:
-            headers.append(text)
+            headers.append(txt)
 
 
-def levelHeaderFilter(elem, doc):
-    if isinstance(elem, pf.Header):
+def lvlHeader(elem, doc):
+    if isinstance(elem, panflute.Header):
         if elem.level <= 3:
-            return pf.Header(pf.Str(pf.stringify(elem).upper()), level=elem.level)
+            return panflute.Header(panflute.Str(panflute.stringify(elem).upper()), level=elem.level)
 
 
-def boldify(doc):
-    doc.replace_keyword('BOLD', pf.Strong(pf.Str('BOLD')))
+def bold(doc):
+    doc.replace_keyword('BOLD', panflute.Strong(panflute.Str('BOLD')))
 
 
 if __name__ == '__main__':
-    pf.run_filters([headerIsExistingFilter, levelHeaderFilter], prepare=boldify)
+    panflute.run_filters([similarHeaders, lvlHeader], prepare=bold)
