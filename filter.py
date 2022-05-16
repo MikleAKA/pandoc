@@ -4,6 +4,10 @@ import panflute
 headers = []
 
 
+def bold(doc):
+    doc.replace_keyword('BOLD', panflute.Strong(panflute.Str('BOLD')))
+
+
 def similarHeaders(elem, doc):
     if isinstance(elem, panflute.Header):
         txt = panflute.stringify(elem)
@@ -17,10 +21,6 @@ def lvlHeader(elem, doc):
     if isinstance(elem, panflute.Header):
         if elem.level <= 3:
             return panflute.Header(panflute.Str(panflute.stringify(elem).upper()), level=elem.level)
-
-
-def bold(doc):
-    doc.replace_keyword('BOLD', panflute.Strong(panflute.Str('BOLD')))
 
 
 if __name__ == '__main__':
